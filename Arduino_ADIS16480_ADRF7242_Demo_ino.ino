@@ -16,7 +16,7 @@ ADIS16480 IMU(9,8,7); // Instantiate ADIS16480 IMU(Chip Select, Data Ready, HW R
 void setup() {
 
   // For serial communication to the PC via USB
-  Serial.begin(57600); // Baud rate was set arbitrarily
+  Serial.begin(9600); // Baud rate was set arbitrarily
 
   // Reminder in terminal that you're in DEBUG mode
   #ifdef DEBUG
@@ -28,7 +28,7 @@ void setup() {
   Tx.reset(); // Reset ADF7242 radio controller during cold start up
   Tx.idle(); // Idle ADF7242 radio controller after cold start up
   // Initialize settings for GFSK/FSK and set data rate
-  Tx.initFSK(5); // Data rate [ 1=50kbps, 2=62.5kbps, 3=100kbps, 4=125kbps, 5=250kbps, 6=500kbps, 7=1Mbps, 8=2Mbps ]
+  Tx.initFSK(2); // Data rate [ 1=50kbps, 2=62.5kbps, 3=100kbps, 4=125kbps, 5=250kbps, 6=500kbps, 7=1Mbps, 8=2Mbps ]
   Tx.setMode(0x04); // Set operating mode to GFSK/FSK packet mode
   Tx.chFreq(2450); // Set operating frequency in MHz
   Tx.syncWord(0x00, 0x00);  // Set sync word // sync word currently hardcoded
