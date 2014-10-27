@@ -30,6 +30,7 @@ void setup() {
   // Initialize settings for GFSK/FSK and set data rate
   Tx.initFSK(5); // Data rate [ 1=50kbps, 2=62.5kbps, 3=100kbps, 4=125kbps, 5=250kbps, 6=500kbps, 7=1Mbps, 8=2Mbps ]
   Tx.setMode(0x04); // Set operating mode to GFSK/FSK packet mode
+  //Tx.initIEEE();
   Tx.chFreq(2450); // Set operating frequency in MHz
   Tx.syncWord(0x00, 0x00);  // Set sync word // sync word currently hardcoded
   Tx.cfgPA(15, 1, 7); // Configure power amplifier (power, high power mode, ramp rate)
@@ -44,6 +45,7 @@ void setup() {
   // ADIS16480 IMU configuration
   IMU.configSPI();
   IMU.reset();// Reset ADIS16480 radio controller during cold start up
+  IMU.tare();// Reset ADIS16480 radio controller during cold start up
 }
 
 void loop() {
@@ -51,9 +53,9 @@ void loop() {
   // Read ADIS16480 IMU Data
   if(digitalRead(8) == LOW) { // Check data ready pin
     IMU.configSPI();
-    roll = (unsigned char)(IMU.regRead(ROLL_C23_OUT) >> 8); // Read roll register and cast to char
-    pitch = (unsigned char)(IMU.regRead(PITCH_C31_OUT) >> 8); // Read pitch register and cast to char
-    yaw = (unsigned char)(IMU.regRead(YAW_C32_OUT) >> 8); // Read pitch register and cast to char
+    roll = (char)(IMU.regRead(ROLL_C23_OUT) >> 8); // Read roll register and cast to char
+    pitch = (char)(IMU.regRead(PITCH_C31_OUT) >> 8); // Read pitch register and cast to char
+    yaw = (char)(IMU.regRead(YAW_C32_OUT) >> 8); // Read pitch register and cast to char
     // 0xFF is a reserved word used for data synchronization
     if(roll == 0xFF) { // 0xFF represents 360 degrees
       roll = 0; // This makes sense since 0 and 360 degrees are the same place
